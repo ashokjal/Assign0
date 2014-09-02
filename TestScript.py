@@ -20,8 +20,14 @@ def check_if_link_already_downloaded(href,urlDic):
 			return True
 		elif (href+'/' == url):
 			return True
-		
 	return False
+
+def check_if_link_part_of_subdomain(href,urlDic):
+	for url in urlDic.viewvalues():
+		if url in href:
+			return True
+	return False	
+
 
 
 #WebPagesDirectory.
@@ -51,6 +57,9 @@ for link in soup.find_all('a'):
         continue
     print ('New Link'+ hrefs)   # print for Debug
     # check if link is in the same sub domain
+    if not check_if_link_part_of_subdomain(hrefs,urlDic):
+	print ('Link not in subdomain')
+	continue
     # check if link is has key values.
     count = count+1
     urlDic[str(count)+url] = hrefs
@@ -62,7 +71,7 @@ for link in soup.find_all('a'):
 
 keys = urlDic.viewkeys()
 for k in keys:
-	#print (k , ' : ', urlDic[k])
-	pass
+	print (k , ' : ', urlDic[k])
+	#pass
 
 
